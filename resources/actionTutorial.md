@@ -59,3 +59,9 @@ That's boring for us, expensive for our employer, and leaves a lot of classes/fi
 It's just not as scalable as it could be. With that in mind, now let's go take a look at what we can do to make it better.
 
 ### 4 - Better API
+Using reflections, we can eliminate the need for the UI's backend to have a separate endpoint for every single feature/action.
+
+We'll establish an enum called `ActionType` which refers to the unique action/feature. This enum will be used in the JSON
+requests to the back end to identify what kind of request we're making.
+
+![Action UI Better API Structure](/images/ActionRequestFlow.png)
