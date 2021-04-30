@@ -3,8 +3,6 @@
 The application in this project is a standalone Java 11 Spring microservice that exposes a single API endpoint which allows 
 you to perform a set of dynamic actions.
 
-![Action UI Architecture](/images/ActionUIArchitecture.png)
-
 The inspiration for the service was the "back end" of a UI - meaning there was a front-front end (e.g. Angular) which would 
 be bundled with and call this service in order to have it perform some work (call other services, do some translations, etc.) 
 Professionally I've come across multiple UIs which were unable to be truly independent (i.e. calling back end services directly) 
@@ -14,9 +12,11 @@ inspiration, you can apply this setup anywhere in any Java app you wanted to. Th
 as the setup in order to have a consistent theme for you.
 
 ## 2 - The Fictitious UI
-In this example, our Java service is the "back end" processor for our front end UI. The design would be the front end IU, 
+In this example, our Java service is the "back end" processor for our front end UI. The design would be the front end UI, 
 let's say Angular, would call back to this packaged Java service to have it perform a set of actions. The UI itself isn't 
 implemented in the slightest, we just know we'll be working with it.
+
+![Action UI Architecture](/images/ActionUIArchitecture.png)
 
 Let's pretend our UI is a banking application. It'll allow employees/customers to open their account, check their balance,
 close their account, etc. This UI has a very defined set of actions, it's not necessarily procedural. For example, we have
@@ -26,6 +26,10 @@ then finally "Close Account" actions.
 
 ## 3 - Traditional API
 Here we'll cover how you might logically build the API to support all of our defined UI actions we looked at above.
+Remember that this API structure represents the calls from the UI front end to the UI back end, not from the UI to the 
+actual back end services. 
+
+![Action UI Traditional API Structure](/images/ActionTraditionalAPI.png)
 
 Every time we define an action (UI feature) which we need to have back end support for, here's the process we'd have to
 take doing it traditionally. Here we'll use the "Open Account" action as an example:
@@ -41,13 +45,14 @@ take doing it traditionally. Here we'll use the "Open Account" action as an exam
 5) Create Back End object used to transmit the response of the action invocation. For example, `OpenAccountResponse.java`,
    this is how we could store the outcome of the action (like the account number, the account name, the error message,
    the lock code, etc.) This object will be returned from the back end and converted into JSON as a response to the Front End.
-6) Create Front End object used to receive and map the response from the back end so it can display the information to the user.
+6) Create Front End object used to receive and map the response from the back end, so it can display the information to 
+   the user.
 
 Phew. Look at all of those steps for just one action. Imagine you build out a beefy banking UI where we can view our account,
-add beneficiaries, stake our crypto, perform retirement analysis, dispute overdraft fees, etc. It's evident I've never
-worked in the financial industry, but you get the idea. Every time we wanted to add something new, there would be a huge
-amount of engineering time dedicated just to getting it, so we can even perform the action in the UI, let alone the actual
-performant code in the true back end which actually does what we're asking (like perform crypto staking estimates over time).
+add beneficiaries, stake our crypto, perform retirement analysis, dispute overdraft fees, etc. Every time we wanted to 
+add something new, there would be a huge amount of engineering time dedicated just to getting it, so we can even perform 
+the action in the UI, let alone the actual performant code in the true back end which actually does what we're asking 
+(like perform crypto staking estimates over time).
 
 Hopefully we can see that over time, we'd be investing a lot of time as engineers doing that overhead for new actions/features.
 That's boring for us, expensive for our employer, and leaves a lot of classes/files which all somehow map to one another.
